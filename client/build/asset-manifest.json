@@ -1,0 +1,30 @@
+{
+  "files": {
+    "main.css": "/static/css/main.962954e6.chunk.css",
+    "main.js": "/static/js/main.31a356bc.chunk.js",
+    "main.js.map": "/static/js/main.31a356bc.chunk.js.map",
+    "runtime-main.js": "/static/js/runtime-main.776c1e0d.js",
+    "runtime-main.js.map": "/static/js/runtime-main.776c1e0d.js.map",
+    "static/js/2.cd0f1724.chunk.js": "/static/js/2.cd0f1724.chunk.js",
+    "static/js/2.cd0f1724.chunk.js.map": "/static/js/2.cd0f1724.chunk.js.map",
+    "index.html": "/index.html",
+    "static/css/main.962954e6.chunk.css.map": "/static/css/main.962954e6.chunk.css.map",
+    "static/js/2.cd0f1724.chunk.js.LICENSE.txt": "/static/js/2.cd0f1724.chunk.js.LICENSE.txt",
+    "static/media/facebook.bc3c0b4d.svg": "/static/media/facebook.bc3c0b4d.svg",
+    "static/media/instagram.38be61db.svg": "/static/media/instagram.38be61db.svg",
+    "static/media/linkedin.408a0279.svg": "/static/media/linkedin.408a0279.svg",
+    "static/media/logo.8c531e91.svg": "/static/media/logo.8c531e91.svg",
+    "static/media/skype.94f07133.svg": "/static/media/skype.94f07133.svg",
+    "static/media/telegram.219113b2.svg": "/static/media/telegram.219113b2.svg",
+    "static/media/verifylens.bc1b019c.svg": "/static/media/verifylens.bc1b019c.svg",
+    "static/media/App.css": "/static/media/wallpaper.e57d927b.jpg",
+    "static/media/welcome.732f421c.svg": "/static/media/welcome.732f421c.svg",
+    "static/media/youtube.9796fab7.svg": "/static/media/youtube.9796fab7.svg"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.776c1e0d.js",
+    "static/js/2.cd0f1724.chunk.js",
+    "static/css/main.962954e6.chunk.css",
+    "static/js/main.31a356bc.chunk.js"
+  ]
+}

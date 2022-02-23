@@ -1,0 +1,85 @@
+.bg-landing {
+  position: relative;
+  background: url('./img/wallpaper.jpg') no-repeat center center/cover;
+  min-height: 100vh;
+}
+
+.wallet-button {
+  color: white;
+  background: linear-gradient(180deg, #0047FF 0%, #002279 100%);
+  box-shadow: 0px 3.09292px 5.89338px rgba(7, 47, 255, 0.4);
+}
+
+@media (max-width: 769px) {
+  .logo {
+    text-align: center;
+    margin-bottom: 20px;
+  }
+  .wallet {
+    text-align: center !important;
+  }
+}
+
+hr {
+  height: 2px;
+  background-color: #1288E8;
+  width: 80%;
+}
+
+.bringing-transparency {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 600;
+  font-size: 1.8rem;
+  line-height: 33px;
+  text-align: center;
+  color: #FFFFFF;
+}
+
+.search .input-group-prepend .input-group-text {
+  border-color: white;
+  border-top-left-radius: 50rem !important;
+  border-bottom-left-radius: 50rem !important;
+}
+
+.search .form-control {
+  border-left: 0px;
+  border-color: white;
+}
+
+.search .input-group-append {
+  background-color: transparent;
+  border-color: white;
+}
+
+.search .input-group-append .btn {
+  border-top-right-radius: 50rem;
+  border-bottom-right-radius: 50rem;
+  border-color: white;
+  background-color: white;
+}
+
+.search .badge-dark {
+  background-color: black;
+  font-size: 20px;
+}
+
+.search i {
+  font-size: 20px;
+}
+
+.search .form-control {
+  height: 50px;
+}
+
+.search .form-control:focus {
+  box-shadow: none;
+}
+
+.func-buttons .btn {
+  color: white;
+  min-width: 178px;
+  background: linear-gradient(180deg, #4200FF 0%, #1C006C 100%);
+  border-radius: 53px;
+  font-size: 24px;
+}

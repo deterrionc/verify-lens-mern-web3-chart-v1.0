@@ -1,1 +1,1 @@
-# verify-lens-mern-web3-chart
+# verify-lens-mern-web3-chart-v1.0

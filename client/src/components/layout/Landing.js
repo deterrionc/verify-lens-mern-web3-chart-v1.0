@@ -11,7 +11,51 @@ import skype from '../../img/skype.svg'
 import facebook from '../../img/facebook.svg'
 import youtube from '../../img/youtube.svg'
 
+// WALLET CONNECT
+import WalletConnectProvider from "@walletconnect/web3-provider";
+import Web3 from "web3";
+import Web3Modal from "web3modal";
+
+let providerOptions = {
+  walletconnect: {
+    package: WalletConnectProvider,
+    options: {
+      rpc: {
+        56: 'https://bsc-dataseed1.binance.org'
+      },
+      chainId: 56,
+      // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1", // Required
+    }
+  }
+};
+
+let web3Modal = new Web3Modal({
+  network: "mainnet", // optional
+  cacheProvider: true, // optional
+  providerOptions // required
+});
+
+let provider;
+
 const Landing = ({ isAuthenticated }) => {
+  const [web3, setWeb3] = React.useState(null)
+
+  const connectWallet = async () => {
+    let _web3 = null
+    let _accounts = null
+
+    provider = await web3Modal.connect()
+    await web3Modal.toggleModal()
+    _web3 = new Web3(provider)
+    setWeb3(_web3)
+    // _accounts = await _web3.eth.getAccounts()
+
+    // setWalletAddress(_accounts[0].toLowerCase())
+    // localStorage.setItem('walletAddress', _accounts[0].toLowerCase())
+    // window.location.reload()
+  }
+
+
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />
   }
@@ -29,6 +73,7 @@ const Landing = ({ isAuthenticated }) => {
             <div className='wallet text-right'>
               <button
                 className='wallet-button rounded-pill btn'
+                onClick={() => connectWallet()}
               >
                 Connect Wallet
               </button>

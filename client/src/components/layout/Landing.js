@@ -16,24 +16,24 @@ import WalletConnectProvider from "@walletconnect/web3-provider";
 import Web3 from "web3";
 import Web3Modal from "web3modal";
 
-let providerOptions = {
-  walletconnect: {
-    package: WalletConnectProvider,
-    options: {
-      rpc: {
-        56: 'https://bsc-dataseed1.binance.org'
-      },
-      chainId: 56,
-      // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1", // Required
-    }
-  }
-};
+// let providerOptions = {
+//   walletconnect: {
+//     package: WalletConnectProvider,
+//     options: {
+//       rpc: {
+//         56: 'https://bsc-dataseed1.binance.org'
+//       },
+//       chainId: 56,
+//       // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1", // Required
+//     }
+//   }
+// };
 
-let web3Modal = new Web3Modal({
-  network: "mainnet", // optional
-  cacheProvider: true, // optional
-  providerOptions // required
-});
+// let web3Modal = new Web3Modal({
+//   network: "mainnet", // optional
+//   cacheProvider: true, // optional
+//   providerOptions // required
+// });
 
 let provider;
 
@@ -41,13 +41,42 @@ const Landing = ({ isAuthenticated }) => {
   const [web3, setWeb3] = React.useState(null)
 
   const connectWallet = async () => {
-    let _web3 = null
-    let _accounts = null
+    // provider = new WalletConnectProvider({
+    //   infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
+    // });
+    // await provider.enable();
+    // const web3 = new Web3(provider);
+    const providerOptions = {
+      walletconnect: {
+        package: WalletConnectProvider,
+        options: {
+          rpc: {
+            56: 'https://bsc-dataseed1.binance.org'
+          },
+          chainId: 56
+        }
+      }
+    }
 
-    provider = await web3Modal.connect()
-    await web3Modal.toggleModal()
-    _web3 = new Web3(provider)
-    setWeb3(_web3)
+    const web3Modal = new Web3Modal({
+      network: "mainnet", // optional
+      cacheProvider: true, // optional
+      providerOptions // required
+    });
+
+    const provider = await web3Modal.connect();
+    await web3Modal.toggleModal();
+
+    // regular web3 provider methods
+    const newWeb3 = new Web3(provider);
+
+    // let _web3 = null
+    // let _accounts = null
+
+    // provider = await web3Modal.connect()
+    // await web3Modal.toggleModal()
+    // _web3 = new Web3(provider)
+    // setWeb3(_web3)
     // _accounts = await _web3.eth.getAccounts()
 
     // setWalletAddress(_accounts[0].toLowerCase())

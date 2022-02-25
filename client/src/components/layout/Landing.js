@@ -10,80 +10,61 @@ import linkedin from '../../img/linkedin.svg'
 import skype from '../../img/skype.svg'
 import facebook from '../../img/facebook.svg'
 import youtube from '../../img/youtube.svg'
+import metamaskImage from '../../img/metamask.png'
+import trustwalletImage from '../../img/trustwallet.png'
+import walletconnectImage from '../../img/walletconnect.png'
+import ellipseAddress from '../../utils/ellipseAddress'
 
 // WALLET CONNECT
-import WalletConnectProvider from "@walletconnect/web3-provider";
-import Web3 from "web3";
-import Web3Modal from "web3modal";
-
-// let providerOptions = {
-//   walletconnect: {
-//     package: WalletConnectProvider,
-//     options: {
-//       rpc: {
-//         56: 'https://bsc-dataseed1.binance.org'
-//       },
-//       chainId: 56,
-//       // infuraId: "27e484dcd9e3efcfd25a83a78777cdf1", // Required
-//     }
-//   }
-// };
-
-// let web3Modal = new Web3Modal({
-//   network: "mainnet", // optional
-//   cacheProvider: true, // optional
-//   providerOptions // required
-// });
-
-let provider;
+import WalletConnectProvider from "@walletconnect/web3-provider"
+import Web3 from "web3"
+import Web3Modal from "web3modal"
 
 const Landing = ({ isAuthenticated }) => {
-  const [web3, setWeb3] = React.useState(null)
+  // const [web3, setWeb3] = React.useState(null)
+  const [walletAddress, setWalletAddress] = React.useState(null)
 
-  const connectWallet = async () => {
-    // provider = new WalletConnectProvider({
-    //   infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
-    // });
-    // await provider.enable();
-    // const web3 = new Web3(provider);
-    const providerOptions = {
-      walletconnect: {
-        package: WalletConnectProvider,
-        options: {
-          rpc: {
-            56: 'https://bsc-dataseed1.binance.org'
-          },
-          chainId: 56
-        }
-      }
+  const providerOptions = {}
+
+  const web3Modal = new Web3Modal({
+    network: "mainnet", // optional
+    cacheProvider: true, // optional
+    providerOptions // required
+  })
+
+  const connectWallet = async (type) => {
+    if (type === 'metamask') {
+      let provider = await web3Modal.connect()
+      let _web3 = new Web3(provider)
+      // setWeb3(_web3)
+      let accounts = await _web3.eth.getAccounts()
+      setWalletAddress(accounts[0].toLowerCase())
+      localStorage.setItem('walletAddress', accounts[0].toLowerCase())
+    } else if (type === 'wallet connect' || type === 'trust wallet') {
+      let provider = new WalletConnectProvider({
+        infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
+      })
+      await provider.enable()
+      let _web3 = new Web3(provider)
+      let accounts = await _web3.eth.getAccounts()
+      setWalletAddress(accounts[0].toLowerCase())
+      localStorage.setItem('walletAddress', accounts[0].toLowerCase())
     }
-
-    const web3Modal = new Web3Modal({
-      network: "mainnet", // optional
-      cacheProvider: true, // optional
-      providerOptions // required
-    });
-
-    const provider = await web3Modal.connect();
-    await web3Modal.toggleModal();
-
-    // regular web3 provider methods
-    const newWeb3 = new Web3(provider);
-
-    // let _web3 = null
-    // let _accounts = null
-
-    // provider = await web3Modal.connect()
-    // await web3Modal.toggleModal()
-    // _web3 = new Web3(provider)
-    // setWeb3(_web3)
-    // _accounts = await _web3.eth.getAccounts()
-
-    // setWalletAddress(_accounts[0].toLowerCase())
-    // localStorage.setItem('walletAddress', _accounts[0].toLowerCase())
-    // window.location.reload()
   }
 
+  const disconnectWallet = async () => {
+    setWalletAddress(null)
+    localStorage.setItem('walletAddress', 'null')
+  }
+
+  React.useEffect(() => {
+    let _walletAddress = localStorage.getItem('walletAddress')
+    if (_walletAddress === 'null') {
+      connectWallet()
+    } else {
+      setWalletAddress(_walletAddress)
+    }
+  }, [])
 
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />
@@ -100,12 +81,25 @@ const Landing = ({ isAuthenticated }) => {
           </div>
           <div className='col-md-6'>
             <div className='wallet text-right'>
-              <button
-                className='wallet-button rounded-pill btn'
-                onClick={() => connectWallet()}
-              >
-                Connect Wallet
-              </button>
+              {walletAddress
+                ?
+                <>
+                  <span className='mr-3 text-white'>{ellipseAddress(walletAddress)}</span>
+                  <button
+                    className='wallet-button rounded-pill btn'
+                    onClick={() => disconnectWallet()}
+                  >
+                    Disconnect
+                  </button>
+                </>
+                :
+                <button
+                  className='wallet-button rounded-pill btn'
+                  data-toggle="modal" data-target="#myModal"
+                >
+                  Connect Wallet
+                </button>
+              }
             </div>
           </div>
         </div>
@@ -204,6 +198,33 @@ const Landing = ({ isAuthenticated }) => {
         <img alt='SETIMAGE' src={skype} width='37' height='37' className='img-fluid mx-1' />
         <img alt='SETIMAGE' src={facebook} width='37' height='37' className='img-fluid mx-1' />
         <img alt='SETIMAGE' src={youtube} width='37' height='37' className='img-fluid mx-1' />
+      </div>
+
+      <div className="modal fade" id="myModal">
+        <div className="modal-dialog modal-sm">
+          <div className="modal-content bg-dark text-white">
+
+            <div className="modal-header border-0">
+              <h6 className="modal-title">Connect Wallet</h6>
+              <button type="button" className="close text-white" data-dismiss="modal">&times;</button>
+            </div>
+
+            <div className="modal-body">
+              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('metamask')} data-dismiss="modal">
+                <img alt='SETIMAGE' src={metamaskImage} width='40' height='40' className='img-fluid ml-3' />
+                <span className='ml-3'>Metamask</span>
+              </div>
+              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('trust wallet')}>
+                <img alt='SETIMAGE' src={trustwalletImage} width='40' height='40' className='img-fluid ml-3' />
+                <span className='ml-3'>Trust Wallet</span>
+              </div>
+              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('wallet connect')}>
+                <img alt='SETIMAGE' src={walletconnectImage} width='40' height='40' className='img-fluid ml-3' />
+                <span className='ml-3'>WalletConnect</span>
+              </div>
+            </div>
+          </div>
+        </div>
       </div>
     </div>
   )

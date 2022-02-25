@@ -83,3 +83,15 @@ hr {
   border-radius: 53px;
   font-size: 24px;
 }
+
+.cursor-pointer {
+  cursor: pointer;
+}
+
+.rounded-xl {
+  border-radius: 15px;
+}
+
+.border-width-3 {
+  border-width: 3px !important;
+}

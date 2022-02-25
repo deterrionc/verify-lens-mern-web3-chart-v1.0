@@ -210,15 +210,27 @@ const Landing = ({ isAuthenticated }) => {
             </div>
 
             <div className="modal-body">
-              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('metamask')} data-dismiss="modal">
+              <div
+                className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2'
+                onClick={() => connectWallet('metamask')}
+                data-dismiss="modal"
+              >
                 <img alt='SETIMAGE' src={metamaskImage} width='40' height='40' className='img-fluid ml-3' />
                 <span className='ml-3'>Metamask</span>
               </div>
-              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('trust wallet')}>
+              <div
+                className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2'
+                onClick={() => connectWallet('trust wallet')}
+                data-dismiss="modal"
+              >
                 <img alt='SETIMAGE' src={trustwalletImage} width='40' height='40' className='img-fluid ml-3' />
                 <span className='ml-3'>Trust Wallet</span>
               </div>
-              <div className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2' onClick={() => connectWallet('wallet connect')}>
+              <div
+                className='p-2 border border-info rounded-xl border-width-3 cursor-pointer mb-2'
+                onClick={() => connectWallet('wallet connect')}
+                data-dismiss="modal"
+              >
                 <img alt='SETIMAGE' src={walletconnectImage} width='40' height='40' className='img-fluid ml-3' />
                 <span className='ml-3'>WalletConnect</span>
               </div>

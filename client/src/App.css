@@ -78,10 +78,24 @@ hr {
 
 .func-buttons .btn {
   color: white;
-  min-width: 178px;
+  min-width: 90%;
   background: linear-gradient(180deg, #4200FF 0%, #1C006C 100%);
   border-radius: 53px;
   font-size: 24px;
+}
+
+@media (max-width: 1300px) {
+  .func-buttons .btn {
+    min-width: 120px;
+    font-size: 20px;
+  }
+}
+
+@media (max-width: 769px) {
+  .func-buttons .btn {
+    min-width: 70%;
+    font-size: 24px;
+  }
 }
 
 .cursor-pointer {

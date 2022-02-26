@@ -14,6 +14,7 @@ import metamaskImage from '../../img/metamask.png'
 import trustwalletImage from '../../img/trustwallet.png'
 import walletconnectImage from '../../img/walletconnect.png'
 import ellipseAddress from '../../utils/ellipseAddress'
+import Customer from './Customer'
 
 // WALLET CONNECT
 import WalletConnectProvider from "@walletconnect/web3-provider"
@@ -104,90 +105,97 @@ const Landing = ({ isAuthenticated }) => {
           </div>
         </div>
       </div>
-      <div className='row welcome'>
-        <div className='col-lg-3'></div>
-        <div className='col-lg-6'>
-          <div className='text-center'>
-            <div className='py-2 px-3'>
-              <img alt='SETIMAGE' src={welcome} className='img-fluid' />
-            </div>
-            <div className='pt-4'>
-              <img alt='SETIMAGE' src={verifylens} className='img-fluid' />
-            </div>
-            <hr />
-            <div className='bringing-transparency pt-3'>
-              <div className='mx-3'>
-                Bringing Transparency And Accountability To The Crypto Space
+      {walletAddress ?
+        <Customer />
+        :
+        <>
+          <div className='row welcome'>
+            <div className='col-lg-3'></div>
+            <div className='col-lg-6'>
+              <div className='text-center'>
+                <div className='py-2 px-3'>
+                  <img alt='SETIMAGE' src={welcome} className='img-fluid' />
+                </div>
+                <div className='pt-4'>
+                  <img alt='SETIMAGE' src={verifylens} className='img-fluid' />
+                </div>
+                <hr />
+                <div className='bringing-transparency pt-3'>
+                  <div className='mx-3'>
+                    Bringing Transparency And Accountability To The Crypto Space
+                  </div>
+                </div>
+                <div className='search pt-5 mt-2'>
+                  <div className="input-group mb-3">
+                    <div className="input-group-prepend">
+                      <span className="input-group-text bg-white">
+                        <i className='fa fa-search'></i>
+                      </span>
+                    </div>
+                    <input type="text" className="form-control" placeholder="Search Contract Address" />
+                    <div className="input-group-append">
+                      <button className="btn btn-light">
+                        <span className='badge badge-dark rounded-pill px-3 py-2'>
+                          Search
+                        </span>
+                      </button>
+                    </div>
+                  </div>
+                </div>
               </div>
             </div>
-            <div className='search pt-5 mt-2'>
-              <div className="input-group mb-3">
-                <div className="input-group-prepend">
-                  <span className="input-group-text bg-white">
-                    <i className='fa fa-search'></i>
-                  </span>
-                </div>
-                <input type="text" className="form-control" placeholder="Search Contract Address" />
-                <div className="input-group-append">
-                  <button className="btn btn-light">
-                    <span className='badge badge-dark rounded-pill px-3 py-2'>
-                      Search
-                    </span>
-                  </button>
-                </div>
-              </div>
-            </div>
+            <div className='col-lg-3'></div>
           </div>
-        </div>
-        <div className='col-lg-3'></div>
-      </div>
-      <div className='func-buttons my-5'>
-        <div className='row'>
-          <div className='col-lg-1'></div>
-          <div className='col-lg-10'>
+          <div className='func-buttons my-5'>
             <div className='row'>
               <div className='col-lg-1'></div>
-              <div className='col-lg-2 text-center'>
-                <button
-                  className='btn rounded-pill my-2'
-                >
-                  Buy VRF
-                </button>
-              </div>
-              <div className='col-lg-2 text-center'>
-                <button
-                  className='btn rounded-pill my-2'
-                >
-                  Live Chart
-                </button>
-              </div>
-              <div className='col-lg-2 text-center'>
-                <button
-                  className='btn rounded-pill my-2'
-                >
-                  Telegram
-                </button>
-              </div>
-              <div className='col-lg-2 text-center'>
-                <button
-                  className='btn rounded-pill my-2'
-                >
-                  Facebook
-                </button>
-              </div>
-              <div className='col-lg-2 text-center'>
-                <button
-                  className='btn rounded-pill my-2'
-                >
-                  Twitter
-                </button>
+              <div className='col-lg-10'>
+                <div className='row'>
+                  <div className='col-lg-1'></div>
+                  <div className='col-lg-2 text-center'>
+                    <button
+                      className='btn rounded-pill my-2'
+                    >
+                      Buy VRF
+                    </button>
+                  </div>
+                  <div className='col-lg-2 text-center'>
+                    <button
+                      className='btn rounded-pill my-2'
+                    >
+                      Live Chart
+                    </button>
+                  </div>
+                  <div className='col-lg-2 text-center'>
+                    <button
+                      className='btn rounded-pill my-2'
+                    >
+                      Telegram
+                    </button>
+                  </div>
+                  <div className='col-lg-2 text-center'>
+                    <button
+                      className='btn rounded-pill my-2'
+                    >
+                      Facebook
+                    </button>
+                  </div>
+                  <div className='col-lg-2 text-center'>
+                    <button
+                      className='btn rounded-pill my-2'
+                    >
+                      Twitter
+                    </button>
+                  </div>
+                  <div className='col-lg-1'></div>
+                </div>
               </div>
               <div className='col-lg-1'></div>
             </div>
           </div>
-          <div className='col-lg-1'></div>
-        </div>
-      </div>
+        </>
+      }
+
       <div className='mt-5 pt-4 text-white text-center'>
         © 2022 Verifylens.com. All rights reserved.
       </div>

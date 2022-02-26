@@ -1,3 +1,7 @@
+.font-14 {
+  font-size: 14px !important;
+}
+
 .bg-landing {
   position: relative;
   background: url('./img/wallpaper.jpg') no-repeat center center/cover;
@@ -15,6 +19,7 @@
     text-align: center;
     margin-bottom: 20px;
   }
+
   .wallet {
     text-align: center !important;
   }
@@ -91,7 +96,7 @@ hr {
   }
 }
 
-@media (max-width: 769px) {
+@media (max-width: 1025px) {
   .func-buttons .btn {
     min-width: 70%;
     font-size: 24px;
@@ -108,4 +113,58 @@ hr {
 
 .border-width-3 {
   border-width: 3px !important;
+}
+
+.customer-page-box {
+  background: rgba(0, 0, 0, 0.75);
+  border: 2px solid #FFFFFF;
+  box-sizing: border-box;
+  border-radius: 5px;
+  min-height: 180px;
+}
+
+.customer-page-box-title {
+  font-family: Raleway;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 20px;
+  line-height: 23px;
+  color: #61B2FF;
+}
+
+.customer-page-box-subtitle {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 900;
+  font-size: 15px;
+  line-height: 19px;
+  color: #7C3FFF;
+}
+
+.customer-page-box-text {
+  font-family: Roboto;
+  font-style: normal;
+  font-weight: 500;
+  font-size: 14px;
+  line-height: 18px;
+  color: #FFFFFF;
+}
+
+.customer-page-box-btn {
+  border: 2px solid #7C3FFF;
+  box-sizing: border-box;
+  border-radius: 20px;
+  color: white;
+}
+
+table tbody tr td, table thead tr th {
+  padding: 4px !important;
+}
+
+table tbody tr:nth-child(odd) {
+  background: rgba(49, 23, 123, 0.25);
+}
+
+table tbody tr:nth-child(even) {
+  background: rgba(55, 5, 123, 0.74);
 }

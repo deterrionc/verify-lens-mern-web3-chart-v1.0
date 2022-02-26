@@ -1,30 +1,32 @@
 {
   "files": {
-    "main.css": "/static/css/main.49896e93.chunk.css",
-    "main.js": "/static/js/main.efc2e202.chunk.js",
-    "main.js.map": "/static/js/main.efc2e202.chunk.js.map",
+    "main.css": "/static/css/main.ece724d1.chunk.css",
+    "main.js": "/static/js/main.2c93be17.chunk.js",
+    "main.js.map": "/static/js/main.2c93be17.chunk.js.map",
     "runtime-main.js": "/static/js/runtime-main.776c1e0d.js",
     "runtime-main.js.map": "/static/js/runtime-main.776c1e0d.js.map",
-    "static/js/2.4418649a.chunk.js": "/static/js/2.4418649a.chunk.js",
-    "static/js/2.4418649a.chunk.js.map": "/static/js/2.4418649a.chunk.js.map",
+    "static/js/2.7e6f7319.chunk.js": "/static/js/2.7e6f7319.chunk.js",
+    "static/js/2.7e6f7319.chunk.js.map": "/static/js/2.7e6f7319.chunk.js.map",
     "index.html": "/index.html",
-    "static/css/main.49896e93.chunk.css.map": "/static/css/main.49896e93.chunk.css.map",
-    "static/js/2.4418649a.chunk.js.LICENSE.txt": "/static/js/2.4418649a.chunk.js.LICENSE.txt",
+    "static/css/main.ece724d1.chunk.css.map": "/static/css/main.ece724d1.chunk.css.map",
+    "static/js/2.7e6f7319.chunk.js.LICENSE.txt": "/static/js/2.7e6f7319.chunk.js.LICENSE.txt",
     "static/media/facebook.bc3c0b4d.svg": "/static/media/facebook.bc3c0b4d.svg",
     "static/media/instagram.38be61db.svg": "/static/media/instagram.38be61db.svg",
     "static/media/linkedin.408a0279.svg": "/static/media/linkedin.408a0279.svg",
     "static/media/logo.8c531e91.svg": "/static/media/logo.8c531e91.svg",
     "static/media/skype.94f07133.svg": "/static/media/skype.94f07133.svg",
     "static/media/telegram.219113b2.svg": "/static/media/telegram.219113b2.svg",
+    "static/media/tweetpost.0023d76d.JPG": "/static/media/tweetpost.0023d76d.JPG",
     "static/media/verifylens.bc1b019c.svg": "/static/media/verifylens.bc1b019c.svg",
+    "static/media/vettertoken.db907134.svg": "/static/media/vettertoken.db907134.svg",
     "static/media/App.css": "/static/media/wallpaper.e57d927b.jpg",
     "static/media/welcome.732f421c.svg": "/static/media/welcome.732f421c.svg",
     "static/media/youtube.9796fab7.svg": "/static/media/youtube.9796fab7.svg"
   },
   "entrypoints": [
     "static/js/runtime-main.776c1e0d.js",
-    "static/js/2.4418649a.chunk.js",
-    "static/css/main.49896e93.chunk.css",
-    "static/js/main.efc2e202.chunk.js"
+    "static/js/2.7e6f7319.chunk.js",
+    "static/css/main.ece724d1.chunk.css",
+    "static/js/main.2c93be17.chunk.js"
   ]
 }

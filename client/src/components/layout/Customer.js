@@ -1,8 +1,113 @@
 import React from 'react'
 import tweetpostImage from '../../img/tweetpost.JPG'
 import vetterTokenImage from '../../img/vettertoken.svg'
+import api from '../../utils/api'
+import pancakeFactoryV2Abi from '../../abi/pancake-factory-v2-abi.json'
+import pancakeLiquidityPoolAbi from '../../abi/pancake-liquidity-pool-abi.json'
+import ellipseAddress from '../../utils/ellipseAddress'
+import { formatDateTime } from '../../utils/formatDate'
 
-const Customer = () => {
+const pancakeFactoryV2ContractAddress = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
+const bnbContractAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
+const bnbDivisor = 18
+const apiKey = 'FNQ5D1XG3IMZ55SU8NR1W9KE8AMC8IYPAC'
+
+const Customer = ({ walletAddress, web3 }) => {
+  const searchKey = '0x6169b3b23e57de79a6146a2170980ceb1f83b9e0'
+
+  // Liquidity Pool Information
+  const [totalSupply, setTotalSupply] = React.useState('')
+  const [circulatingSupply, setCirculatingSupply] = React.useState('')
+  const [noOfHolders, setNoOfHolders] = React.useState('')
+  const [liquidity, setLiquidity] = React.useState('')
+
+  // Token Info
+  const [tokenName, setTokenName] = React.useState('')
+  const [symbol, setSymbol] = React.useState('')
+  const [contractAddress, setContractAddress] = React.useState('')
+  const [tokenDescription, setTokenDescription] = React.useState('')
+
+  // Top Holders
+  const [topHolders, setTopHolders] = React.useState([])
+
+  // Top 20 Wallet Address
+  const [top20Holders, setTop20Holders] = React.useState([])
+
+  // Transactions
+  const [transactions, setTransactions] = React.useState([])
+
+  React.useEffect(() => {
+    async function fetchData() {
+      let res = await api.get(`https://api.bscscan.com/api?module=token&action=tokeninfo&contractaddress=${searchKey}&apikey=${apiKey}`)
+
+      if (res.data.status === '1') {
+        let tokenInfo = res.data.result[0]
+
+        // Token Info
+        setTokenName(tokenInfo.tokenName)
+        setSymbol(tokenInfo.symbol)
+        setContractAddress(tokenInfo.contractAddress)
+        setTokenDescription(tokenInfo.description)
+
+        // Liquidity Pool Information
+        setTotalSupply(Math.round(Number(tokenInfo.totalSupply)))
+
+        let res1 = await api.get(`https://api.bscscan.com/api?module=stats&action=tokenCsupply&contractaddress=${searchKey}&apikey=${apiKey}`)
+        setCirculatingSupply(Math.round(res1.data.result / 10 ** tokenInfo.divisor))
+
+        let res2 = await api.get(`https://api.bscscan.com/api?module=token&action=tokenholderlist&contractaddress=${searchKey}&apikey=${apiKey}`)
+        let holders = res2.data.result
+        if (holders.length === 10000) {
+          setNoOfHolders('over 10000')
+        } else {
+          setNoOfHolders(holders.length)
+        }
+
+        // Transactions
+        let res3 = await api.get(`https://api.bscscan.com/api?module=account&action=tokentx&contractaddress=${searchKey}&page=1&offset=20&sort=desc&apikey=${apiKey}`)
+        let _transactions = res3.data.result
+        _transactions.forEach(transaction => {
+          transaction.token1 = (transaction.value / 10 ** transaction.tokenDecimal).toFixed(3) + ' ' + transaction.tokenSymbol
+          transaction.time1 = formatDateTime(Number(transaction.timeStamp) * 1000)
+          transaction.hash1 = ellipseAddress(transaction.hash)
+          transaction.value1 = (transaction.value / 10 ** transaction.tokenDecimal * tokenInfo.tokenPriceUSD).toFixed(3)
+          transaction.gas1 = transaction.gasUsed * transaction.gasPrice / 10 ** bnbDivisor
+        })
+        setTransactions(_transactions)
+
+        // Top Holders
+        holders = holders.filter(holder => holder.TokenHolderAddress !== '0x000000000000000000000000000000000000dead')
+        holders = holders.sort((a, b) => Number(b.TokenHolderQuantity) - Number(a.TokenHolderQuantity))
+        let _top3Holders = holders.slice(0, 3)
+        _top3Holders.forEach(holder => {
+          holder.TokenHolderQuantity = (holder.TokenHolderQuantity / 10 ** tokenInfo.divisor).toFixed(3)
+          holder.TokenHolderUSD = (tokenInfo.tokenPriceUSD * holder.TokenHolderQuantity).toFixed(3)
+          holder.TokenHolderPercent = ((holder.TokenHolderQuantity / tokenInfo.totalSupply) * 100).toFixed(2)
+        })
+        let _top20Holders = holders.slice(0, 20)
+        setTopHolders(_top3Holders)
+        setTop20Holders(_top20Holders)
+
+
+
+        if (web3) {
+          let contract = new web3.eth.Contract(pancakeFactoryV2Abi, pancakeFactoryV2ContractAddress)
+          let LP_contract_address = await contract.methods.getPair(searchKey, bnbContractAddress).call()
+          let LP_contract = new web3.eth.Contract(pancakeLiquidityPoolAbi, LP_contract_address)
+          let token0 = await LP_contract.methods.token0().call()
+          let _liquidity = await LP_contract.methods.getReserves().call()
+          if (String(token0) === String(bnbContractAddress)) {
+            setLiquidity((_liquidity[0] / 10 ** bnbDivisor).toFixed(3))
+          } else {
+            setLiquidity((_liquidity[1] / 10 ** bnbDivisor).toFixed(3))
+          }
+        }
+      } else {
+        alert('Invalid Token Address')
+      }
+    }
+    fetchData()
+  }, [web3])
 
   return (
     <div className='customer-landing'>
@@ -42,13 +147,13 @@ const Customer = () => {
                 </div>
                 <div className='row align-items-center'>
                   <div className='col-6 customer-page-box-subtitle pl-4'>Total Supply</div>
-                  <div className='col-6 customer-page-box-text text-break'>:4,000,000,000</div>
-                  <div className='col-6 customer-page-box-subtitle pl-4'>Circulating Supply</div>
-                  <div className='col-6 customer-page-box-text text-break'>:$7,952,220,224</div>
-                  <div className='col-6 customer-page-box-subtitle pl-4'>No.of.holders</div>
-                  <div className='col-6 customer-page-box-text text-break'>:9814</div>
-                  <div className='col-6 customer-page-box-subtitle pl-4'>Liquidity</div>
-                  <div className='col-6 customer-page-box-text text-break'>:$7,952,220,224</div>
+                  <div className='col-6 customer-page-box-text text-break'>: {totalSupply}</div>
+                  <div className='col-6 customer-page-box-subtitle pl-4 pt-1'>Circulating Supply</div>
+                  <div className='col-6 customer-page-box-text text-break pt-1'>: {circulatingSupply}</div>
+                  <div className='col-6 customer-page-box-subtitle pl-4 pt-1'>No.of.holders</div>
+                  <div className='col-6 customer-page-box-text text-break pt-1'>: {noOfHolders}</div>
+                  <div className='col-6 customer-page-box-subtitle pl-4 pt-1'>Liquidity</div>
+                  <div className='col-6 customer-page-box-text text-break pt-1'>: {liquidity} BNB</div>
                 </div>
               </div>
             </div>
@@ -58,22 +163,22 @@ const Customer = () => {
                   <div className='text-center'>
                     <img alt='SETIMAGE' src={vetterTokenImage} className='img-fluid' />
                   </div>
-                  <div className=''>
+                  <div className='ml-2'>
                     <div className='customer-page-box-title'>
-                      Vetter Token
+                      {tokenName}
                     </div>
                     <div>
                       <span className='customer-page-box-subtitle'>Symbol:</span>
-                      <span className='customer-page-box-text'>Vetter</span>
+                      <span className='customer-page-box-text'>{symbol}</span>
                     </div>
                     <div>
                       <span className='customer-page-box-subtitle'>Contract Address:</span>
-                      <span className='customer-page-box-text text-break'>0x6169b3b23e57de79a6146a2170980ceb1f83b9e0</span>
+                      <span className='customer-page-box-text text-break'>{contractAddress}</span>
                     </div>
                   </div>
                 </div>
                 <div className='m-2 text-justify customer-page-box-text'>
-                  Vetter Token, where crowdsourcing meets a.i. and gamification to empower the crypto investor. Reinventing the Crypto Research Game.Vetter Token, helping crypto insiders become a better Vetter. Crypto Calendar helps identify the projects most likely to 2x to 1000x based on poster history.Vetter Token (VETTER) makes crypto research fun! With a proven use case, the App highlights projects worth researching by ranking the poster's performance.
+                  {tokenDescription}
                 </div>
               </div>
             </div>
@@ -175,7 +280,7 @@ const Customer = () => {
             <div className='col-lg-9'>
               <div className='customer-page-box p-2'>
                 <div className='customer-page-box-title text-center p-2'>
-                  Top 5% Holders
+                  Top Holders
                 </div>
                 <div className='table-responsive'>
                   <table className='table table-borderless customer-page-box-text text-center'>
@@ -188,12 +293,12 @@ const Customer = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {[1, 2, 3].map((item, index) =>
+                      {topHolders.map((item, index) =>
                         <tr key={index}>
-                          <td>0x6169b3b23e57de79a6146a</td>
-                          <td>18,136,545,548,775.30	</td>
-                          <td>$25,395.92</td>
-                          <td>1.81%</td>
+                          <td>{item.TokenHolderAddress}</td>
+                          <td>{item.TokenHolderQuantity}</td>
+                          <td>$ {item.TokenHolderUSD}</td>
+                          <td>{item.TokenHolderPercent} %</td>
                         </tr>
                       )}
                     </tbody>
@@ -252,9 +357,9 @@ const Customer = () => {
                       </tr>
                     </thead>
                     <tbody>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2, 3, 4, 5].map((item, index) =>
+                      {top20Holders.map((item, index) =>
                         <tr key={index}>
-                          <td>0x6169b3b23e57de79a6146a2170980ceb1f83b9e0</td>
+                          <td>{item.TokenHolderAddress}</td>
                         </tr>
                       )}
                     </tbody>
@@ -265,7 +370,7 @@ const Customer = () => {
             <div className='col-lg-8 my-2'>
               <div className='customer-page-box'>
                 <div className='customer-page-box-title text-center py-3'>
-                  Transaction
+                  Recent 20 Transaction
                 </div>
                 <div className='table-responsive'>
                   <table className='table table-borderless customer-page-box-text text-center'>
@@ -273,19 +378,19 @@ const Customer = () => {
                       <tr>
                         <th>TOKENS</th>
                         <th>VALUE</th>
-                        <th>PRICE</th>
+                        <th>GAS PRICE</th>
                         <th>TIME</th>
                         <th>TRANSACTION HASH</th>
                       </tr>
                     </thead>
                     <tbody>
-                      {[1, 2, 3, 4, 5, 6, 7, 8, 9, 0, 1, 2].map((item, index) =>
+                      {transactions.map((item, index) =>
                         <tr key={index}>
-                          <td>579,049,285,460.528 WTW</td>
-                          <td>$837.757</td>
-                          <td>$0.000000001447</td>
-                          <td>12:44:12</td>
-                          <td>0xa0e...44fe3</td>
+                          <td>{item.token1}</td>
+                          <td>$ {item.value1}</td>
+                          <td>{item.gas1}</td>
+                          <td>{item.time1}</td>
+                          <td>{item.hash1}</td>
                         </tr>
                       )}
                     </tbody>

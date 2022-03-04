@@ -22,7 +22,7 @@ import Web3 from "web3"
 import Web3Modal from "web3modal"
 
 const Landing = ({ isAuthenticated }) => {
-  // const [web3, setWeb3] = React.useState(null)
+  const [web3, setWeb3] = React.useState(null)
   const [walletAddress, setWalletAddress] = React.useState(null)
 
   const providerOptions = {}
@@ -37,7 +37,7 @@ const Landing = ({ isAuthenticated }) => {
     if (type === 'metamask') {
       let provider = await web3Modal.connect()
       let _web3 = new Web3(provider)
-      // setWeb3(_web3)
+      setWeb3(_web3)
       let accounts = await _web3.eth.getAccounts()
       setWalletAddress(accounts[0].toLowerCase())
       localStorage.setItem('walletAddress', accounts[0].toLowerCase())
@@ -60,12 +60,12 @@ const Landing = ({ isAuthenticated }) => {
 
   React.useEffect(() => {
     let _walletAddress = localStorage.getItem('walletAddress')
-    if (_walletAddress === 'null') {
-      connectWallet()
-    } else {
+    if (web3) {
       setWalletAddress(_walletAddress)
+    } else {
+      connectWallet('metamask')
     }
-  }, [])
+  }, [web3])
 
   if (isAuthenticated) {
     return <Redirect to='/dashboard' />
@@ -106,7 +106,10 @@ const Landing = ({ isAuthenticated }) => {
         </div>
       </div>
       {walletAddress ?
-        <Customer />
+        <Customer
+          web3={web3}
+          walletAddress={walletAddress}
+        />
         :
         <>
           <div className='row welcome'>
@@ -156,7 +159,7 @@ const Landing = ({ isAuthenticated }) => {
                     <button
                       className='btn rounded-pill my-2'
                     >
-                      Buy VRF
+                      Buy VRFY
                     </button>
                   </div>
                   <div className='col-lg-2 text-center'>

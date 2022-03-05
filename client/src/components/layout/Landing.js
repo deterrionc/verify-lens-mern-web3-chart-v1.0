@@ -62,9 +62,10 @@ const Landing = ({ isAuthenticated }) => {
     let _walletAddress = localStorage.getItem('walletAddress')
     if (web3) {
       setWalletAddress(_walletAddress)
-    } else {
-      connectWallet('metamask')
-    }
+    } 
+    // else {
+    //   document.getElementById('connect-button').click()
+    // }
   }, [web3])
 
   if (isAuthenticated) {
@@ -97,6 +98,7 @@ const Landing = ({ isAuthenticated }) => {
                 <button
                   className='wallet-button rounded-pill btn'
                   data-toggle="modal" data-target="#myModal"
+                  id='connect-button'
                 >
                   Connect Wallet
                 </button>

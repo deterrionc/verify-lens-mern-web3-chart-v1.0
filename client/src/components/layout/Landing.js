@@ -41,15 +41,43 @@ const Landing = ({ isAuthenticated }) => {
       let accounts = await _web3.eth.getAccounts()
       setWalletAddress(accounts[0].toLowerCase())
       localStorage.setItem('walletAddress', accounts[0].toLowerCase())
-    } else if (type === 'wallet connect' || type === 'trust wallet') {
+    } else if (type === 'wallet connect') {
       let provider = new WalletConnectProvider({
         infuraId: "27e484dcd9e3efcfd25a83a78777cdf1",
       })
       await provider.enable()
       let _web3 = new Web3(provider)
+      setWeb3(_web3)
       let accounts = await _web3.eth.getAccounts()
       setWalletAddress(accounts[0].toLowerCase())
       localStorage.setItem('walletAddress', accounts[0].toLowerCase())
+    } else if (type === 'trust wallet') {
+      const providerOptions = {
+        walletconnect: {
+          package: WalletConnectProvider,
+          options: {
+            rpc: {
+              56: 'https://bsc-dataseed1.binance.org'
+            },
+            chainId: 56
+          }
+        }
+      }
+
+      const web3Modal = new Web3Modal({
+        network: "mainnet", // optional
+        cacheProvider: true, // optional
+        providerOptions // required
+      })
+
+      const provider = await web3Modal.connect();
+      await web3Modal.toggleModal();
+
+      // regular web3 provider methods
+      const newWeb3 = new Web3(provider);
+      setWeb3(newWeb3)
+      const accounts = await newWeb3.eth.getAccounts();
+      setWalletAddress(accounts[0].toLowerCase())
     }
   }
 
@@ -62,7 +90,7 @@ const Landing = ({ isAuthenticated }) => {
     let _walletAddress = localStorage.getItem('walletAddress')
     if (web3) {
       setWalletAddress(_walletAddress)
-    } 
+    }
     // else {
     //   document.getElementById('connect-button').click()
     // }

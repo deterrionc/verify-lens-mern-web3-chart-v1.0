@@ -1,19 +1,20 @@
 import React from 'react'
+import { connect } from 'react-redux'
 import tweetpostImage from '../../img/tweetpost.JPG'
-import vetterTokenImage from '../../img/vettertoken.svg'
 import api from '../../utils/api'
 import pancakeFactoryV2Abi from '../../abi/pancake-factory-v2-abi.json'
 import pancakeLiquidityPoolAbi from '../../abi/pancake-liquidity-pool-abi.json'
 import ellipseAddress from '../../utils/ellipseAddress'
 import { formatDateTime } from '../../utils/formatDate'
 import Spinner from '../layout/Spinner'
+import { getGeckoInfo } from '../../actions/token'
 
 const pancakeFactoryV2ContractAddress = '0xcA143Ce32Fe78f1f7019d7d551a6402fC5350c73'
 const bnbContractAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const bnbDivisor = 18
 const apiKey = 'FNQ5D1XG3IMZ55SU8NR1W9KE8AMC8IYPAC'
 
-const Customer = ({ walletAddress, web3 }) => {
+const Customer = ({ walletAddress, web3, getGeckoInfo, tokenImage, geckoInfoLoaded }) => {
   const [searchKey, setSearchKey] = React.useState('')
 
   // Liquidity Pool Information
@@ -67,6 +68,7 @@ const Customer = ({ walletAddress, web3 }) => {
     setLensScoreLoaded(false)
     setHoneyPotTestLoaded(false)
 
+    getGeckoInfo(searchKey)
     let res = await api.get(`https://api.bscscan.com/api?module=token&action=tokeninfo&contractaddress=${searchKey}&apikey=${apiKey}`)
 
     if (res.data.status === '1') {
@@ -98,7 +100,7 @@ const Customer = ({ walletAddress, web3 }) => {
       })
       setTransactions(_transactions)
       setTransactionsLoaded(true)
-   
+
       // Top Holders
       let res2 = await api.get(`https://api.bscscan.com/api?module=token&action=tokenholderlist&contractaddress=${searchKey}&apikey=${apiKey}`)
       let holders = res2.data.result
@@ -210,7 +212,12 @@ const Customer = ({ walletAddress, web3 }) => {
                   <>
                     <div className='row align-items-center m-2'>
                       <div className='text-center'>
-                        <img alt='SETIMAGE' src={vetterTokenImage} className='img-fluid' />
+                        {geckoInfoLoaded
+                          ?
+                          <img alt='SETIMAGE' src={tokenImage} className='img-fluid' width='70px' height='70px' />
+                          :
+                          null
+                        }
                       </div>
                       <div className='ml-2'>
                         <div className='customer-page-box-title'>
@@ -509,4 +516,9 @@ const Customer = ({ walletAddress, web3 }) => {
   )
 }
 
-export default Customer
+const mapStateToProps = state => ({
+  geckoInfoLoaded: state.token.loaded,
+  tokenImage: state.token.image
+})
+
+export default connect(mapStateToProps, { getGeckoInfo })(Customer)

@@ -431,8 +431,8 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
                   </div>
                 </div>
               </div>
-              {/* {userType1 && userType2 && userType3 */}
-              {userType1 && userType2
+              {userType1 && userType2 && userType3
+              // {userType1 && userType2
                 ?
                 <div className='row'>
                   <div className='col-lg-3 my-2'>
@@ -520,8 +520,8 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
                 :
                 null
               }
-              {/* {userType1 && userType2 && userType3 */}
-              {userType1 && userType2
+              {userType1 && userType2 && userType3
+              // {userType1 && userType2
                 ?
                 <div className='row'>
                   <div className='col-lg-3 my-2'>
@@ -644,8 +644,8 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
               }
 
               <div className='row'>
-                {/* {userType1 && userType2 && userType3 */}
-                {userType1 && userType2
+                {userType1 && userType2 && userType3
+                // {userType1 && userType2
                   ?
                   <div className='col-lg-4 my-2'>
                     <div className='customer-page-box'>

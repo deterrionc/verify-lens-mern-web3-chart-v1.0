@@ -1,0 +1,10 @@
+{
+  "SERVER" : {
+    "chromeBinaryPath": "/usr/bin/google-chrome",
+    "arguments": ["--headless", "--no-sandbox", "--disable-dev-shm-usage"]
+  },
+  "selenium" : {
+    "chromeBinaryPath": "C:/Program Files/Google/Chrome/Application/chrome.exe",
+    "arguments": ["--no-sandbox", "--disable-dev-shm-usage"]
+  }
+}

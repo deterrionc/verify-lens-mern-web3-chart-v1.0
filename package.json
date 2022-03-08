@@ -13,21 +13,29 @@
     "dev": "concurrently \"npm run server\" \"npm run client\"",
     "heroku-postbuild": "NPM_CONFIG_PRODUCTION=false npm install --prefix client && npm run build --prefix client"
   },
-  "author": "Brad Traversy",
+  "author": "Daskiro King",
   "license": "MIT",
   "dependencies": {
     "axios": "^0.21.1",
     "bcryptjs": "^2.4.3",
+    "chromedriver": "^99.0.0",
     "client": "file:client",
+    "compression": "^1.7.4",
     "config": "^3.3.3",
+    "cors": "^2.8.5",
     "express": "^4.17.1",
     "express-validator": "^6.8.1",
+    "extend": "^3.0.2",
     "gravatar": "^1.8.1",
     "jsonwebtoken": "^8.5.1",
     "mailgun-js": "^0.22.0",
     "mongoose": "^5.11.8",
     "multer": "^1.4.3",
-    "normalize-url": "^5.3.0"
+    "node-schedule": "^2.0.0",
+    "normalize-url": "^5.3.0",
+    "request": "^2.88.2",
+    "request-promise": "^4.2.6",
+    "selenium-webdriver": "^4.0.0-rc-1"
   },
   "devDependencies": {
     "concurrently": "^5.3.0",

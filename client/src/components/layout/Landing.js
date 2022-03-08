@@ -22,7 +22,7 @@ import pancakeFactoryV2Abi from '../../abi/pancake-factory-v2-abi.json'
 import pancakeLiquidityPoolAbi from '../../abi/pancake-liquidity-pool-abi.json'
 import { formatDateTime } from '../../utils/formatDate'
 import Spinner from '../layout/Spinner'
-import { getGeckoInfo } from '../../actions/token'
+import { getGeckoInfo, getHoneyPotInfo } from '../../actions/token'
 
 // WALLET CONNECT
 import WalletConnectProvider from "@walletconnect/web3-provider"
@@ -34,7 +34,7 @@ const bnbContractAddress = '0xbb4CdB9CBd36B01bD1cBaEBF2De08d9173bc095c'
 const bnbDivisor = 18
 const apiKey = 'FNQ5D1XG3IMZ55SU8NR1W9KE8AMC8IYPAC'
 
-const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded }) => {
+const Landing = ({ isAuthenticated, getGeckoInfo, getHoneyPotInfo, tokenImage, geckoInfoLoaded, honeyPotLoaded, honeyPotText }) => {
   const userType1 = true
   const [userType2, setUserType2] = React.useState(false)
   const [userType3, setUserType3] = React.useState(false)
@@ -158,9 +158,6 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
   // Lens Score
   const [lensScoreLoaded, setLensScoreLoaded] = React.useState(false)
 
-  // Honey Pot Test
-  const [honeyPotTestLoaded, setHoneyPotTestLoaded] = React.useState(false)
-
   const getPageData = async () => {
     setLiquidityInfoLoaded(false)
     setTokenInfoLoaded(false)
@@ -171,9 +168,9 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
     setOwnerAnalysisLoaded(false)
     setBurnInfoLoaded(false)
     setLensScoreLoaded(false)
-    setHoneyPotTestLoaded(false)
 
     getGeckoInfo(searchKey)
+    getHoneyPotInfo(searchKey)
     let res = await api.get(`https://api.bscscan.com/api?module=token&action=tokeninfo&contractaddress=${searchKey}&apikey=${apiKey}`)
 
     let _verifyLensScore = 0
@@ -622,16 +619,17 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
                       <div className='customer-page-box-title text-center pt-3 pb-1'>
                         Honey pot Test
                       </div>
-                      {honeyPotTestLoaded
+                      {honeyPotLoaded
                         ?
                         <div className='p-3 text-justify'>
-                          <div className='customer-page-box-text'>
+                          {/* <div className='customer-page-box-text'>
                             ⚠️ A trading fee of over 10% but less then 20% was detected when selling or buying this token. Our system was however able to sell the token again.
-                          </div>
-                          <div className='text-right'>
+                          </div> */}
+                          <div className='customer-page-box-text' dangerouslySetInnerHTML={{__html: honeyPotText}}></div>
+                          {/* <div className='text-right'>
                             <span className='customer-page-box-subtitle'>Test By: </span>
                             <span className='customer-page-box-text'>RugDoc</span>
-                          </div>
+                          </div> */}
                         </div>
                         :
                         <Spinner />
@@ -900,7 +898,9 @@ const Landing = ({ isAuthenticated, getGeckoInfo, tokenImage, geckoInfoLoaded })
 const mapStateToProps = state => ({
   isAuthenticated: state.auth.isAuthenticated,
   geckoInfoLoaded: state.token.loaded,
-  tokenImage: state.token.image
+  tokenImage: state.token.image,
+  honeyPotLoaded: state.token.honeyPotLoaded,
+  honeyPotText: state.token.honeyPotText
 })
 
-export default connect(mapStateToProps, { getGeckoInfo })(Landing)
+export default connect(mapStateToProps, { getGeckoInfo, getHoneyPotInfo })(Landing)

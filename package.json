@@ -1,7 +1,7 @@
 {
-  "name": "devconnector",
+  "name": "verifylens",
   "version": "1.0.0",
-  "description": "Social network for developers",
+  "description": "BSC ETH net scan verified tokens",
   "main": "server.js",
   "scripts": {
     "start": "node server",

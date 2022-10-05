@@ -2,7 +2,7 @@
 const User = require('./models/User')
 
 // MIGRATION DATA
-const users1 = require('./migrate/users.js')
+const users2 = require('./migrate/users.js')
 
 // MongoDB Connect
 const connectDB = require('./config/db');

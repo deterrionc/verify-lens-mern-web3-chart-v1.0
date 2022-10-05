@@ -4,7 +4,7 @@ const axios = require('axios')
 const config = require('config')
 
 const Axios = axios.create({
-  header: {
+  headers: {
     'Content-Type': 'application/json'
   }
 })

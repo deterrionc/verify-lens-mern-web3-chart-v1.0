@@ -1,3 +1,6 @@
+# Prepare
+npm install
+
 # Start
 npm run dev
 
